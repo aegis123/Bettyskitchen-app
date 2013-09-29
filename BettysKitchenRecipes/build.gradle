@@ -17,11 +17,15 @@ android {
     buildToolsVersion "18.1.0"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 18
     }
 }
 
 dependencies {
 	compile 'com.android.support:appcompat-v7:18.0.0'
+    compile 'com.squareup.picasso:picasso:2.0.2'
+    compile 'com.squareup.retrofit:retrofit:1.2.2'
+    compile 'com.squareup.okhttp:okhttp:1.2.1'
+    compile 'com.github.gabrielemariotti.cards:library:0.2.0'
 }
