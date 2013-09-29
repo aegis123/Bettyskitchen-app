@@ -28,4 +28,9 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.2.2'
     compile 'com.squareup.okhttp:okhttp:1.2.1'
     compile 'com.github.gabrielemariotti.cards:library:0.2.0'
+    compile('org.simpleframework:simple-xml:2.7.+'){
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
 }
