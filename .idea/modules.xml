@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BettysKitchenRecipes/BettysKitchenRecipes.iml" filepath="$PROJECT_DIR$/BettysKitchenRecipes/BettysKitchenRecipes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BettysKitchenRecipesProject.iml" filepath="$PROJECT_DIR$/BettysKitchenRecipesProject.iml" />
+    </modules>
+  </component>
+</project>
+
