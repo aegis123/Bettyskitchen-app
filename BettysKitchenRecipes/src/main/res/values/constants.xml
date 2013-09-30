@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accountType">bettyskitchen.nl</string>
+    <string name="authority">com.bettys.kitchen.recipes.app.providers</string>
+</resources>

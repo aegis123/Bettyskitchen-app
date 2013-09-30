@@ -15,6 +15,12 @@ import java.util.List;
         @Namespace(prefix="sy", reference="http://purl.org/rss/1.0/modules/syndication/")
 })
 public class Channel {
+    public static final String FIELD_TITLE = "title";
+    public static final String FIELD_LINK = "link";
+    public static final String FIELD_DESCRIPTION = "description";
+    public static final String FIELD_LASTUPDATE = "lastBuildDate";
+    public static final String FIELD_LANGUAGE = "language";
+
     @Element(name = "title", required = true)
     public String mTitle;
     @Element(name = "link", required = true)
