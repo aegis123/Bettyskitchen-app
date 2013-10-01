@@ -4,10 +4,23 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 import com.bettys.kitchen.recipes.app.R;
+import com.bettys.kitchen.recipes.app.RecipeApplication;
+import com.bettys.kitchen.recipes.app.interfaces.BettysKitchenService;
+import com.bettys.kitchen.recipes.app.models.Channel;
+import com.bettys.kitchen.recipes.app.models.Item;
+import com.bettys.kitchen.recipes.app.models.Rss;
+import com.bettys.kitchen.recipes.app.syncadapters.SyncAdapter;
+import com.mobprofs.retrofit.converters.SimpleXmlConverter;
+
+import java.util.List;
+
+import retrofit.RestAdapter;
 
 public class MainActivity extends Activity {
     // The account name
@@ -20,6 +33,41 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAccount = CreateSyncAccount(this);
+        Log.d(RecipeApplication.TAG, "MainActivity started onCreate()");
+        Log.d(RecipeApplication.TAG, mAccount.name.toString());
+        Log.d(RecipeApplication.TAG, mAccount.toString());
+        server();
+    }
+
+    private void server() {
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
+                // Create a very simple REST adapter which points the GitHub API endpoint.
+                RestAdapter restAdapter = new RestAdapter.Builder()
+                        .setServer(SyncAdapter.SERVER_URL).setConverter(new SimpleXmlConverter())
+                        .build();
+
+                BettysKitchenService server = restAdapter.create(BettysKitchenService.class);
+                Rss feed = server.getFeed();
+
+                if (feed != null) {
+                    Channel chan = feed.mChannel;
+                    if (chan != null) {
+                        Log.d(RecipeApplication.TAG, chan.toString());
+                        List<Item> items = chan.items;
+                        if (items != null && !items.isEmpty()) {
+                            for (Item item : items) {
+                                if(item != null) {
+                                    Log.d(RecipeApplication.TAG, item.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        }.execute();
     }
 
 

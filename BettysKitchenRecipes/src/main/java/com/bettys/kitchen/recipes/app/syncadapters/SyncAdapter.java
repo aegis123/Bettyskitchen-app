@@ -8,18 +8,20 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
+import com.bettys.kitchen.recipes.app.RecipeApplication;
+import com.bettys.kitchen.recipes.app.interfaces.BettysKitchenService;
+import com.bettys.kitchen.recipes.app.models.Channel;
+import com.bettys.kitchen.recipes.app.models.Item;
+import com.bettys.kitchen.recipes.app.models.Rss;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.List;
 
-/**
- * Created by Dylan on 30-9-13.
- */
+import retrofit.RestAdapter;
+
+
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
+
+    public static String SERVER_URL = "http://bettyskitchen.nl";
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -31,34 +33,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        OkHttpClient client = new OkHttpClient();
-        InputStream in = null;
-        try {
-            URL url =  new URL("http://bettyskitchen.nl/feed/");
-            HttpURLConnection connection = client.open(url);
-            // Read the response.
-            in = connection.getInputStream();
-            byte[] response = readFully(in);
-            String xml = new String(response, "UTF-8");
-            // TODO save XML to DB
-        } catch (IOException e) {
-            Log.e("SyncAdapter", e.getStackTrace().toString());
-        } finally {
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
+        // Create a very simple REST adapter which points the GitHub API endpoint.
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setServer(SERVER_URL)
+                .build();
+        BettysKitchenService server = restAdapter.create(BettysKitchenService.class);
 
-    byte[] readFully(InputStream in) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        for (int count; (count = in.read(buffer)) != -1; ) {
-            out.write(buffer, 0, count);
+        Rss feed = server.getFeed();
+
+        if (feed != null) {
+            Channel chan = feed.mChannel;
+            if (chan != null) {
+                Log.d(RecipeApplication.TAG, chan.toString());
+                List<Item> items = chan.items;
+                if (items != null && !items.isEmpty()) {
+                    for (Item item : items) {
+                        if(item != null) {
+                            Log.d(RecipeApplication.TAG, item.toString());
+                        }
+                    }
+                }
+            }
         }
-        return out.toByteArray();
     }
 }

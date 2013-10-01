@@ -2,18 +2,9 @@ package com.bettys.kitchen.recipes.app.models;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Namespace;
-import org.simpleframework.xml.NamespaceList;
-import org.simpleframework.xml.Root;
 
-import java.net.URL;
-import java.util.Date;
 import java.util.List;
 
-@NamespaceList({
-        @Namespace(prefix="atom", reference="http://www.w3.org/2005/Atom"),
-        @Namespace(prefix="sy", reference="http://purl.org/rss/1.0/modules/syndication/")
-})
 public class Channel {
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_LINK = "link";
@@ -22,15 +13,20 @@ public class Channel {
     public static final String FIELD_LANGUAGE = "language";
 
     @Element(name = "title", required = true)
-    public String mTitle;
-    @Element(name = "link", required = true)
-    public String mLink;
+    public String title;
+    @Element(name = "link", required = false)
+    public String link;
     @Element(name = "description", required = true)
-    public String mDescription;
+    public String description;
     @Element(name = "lastBuildDate", required = true)
-    public String mLastBuildDate;
+    public String lastBuildDate;
     @Element(name = "language", required = true)
-    public String mLanguage;
+    public String language;
     @ElementList(name = "item", required = true)
-    public List<Item> mItems;
+    public List<Item> items;
+
+    @Override
+    public String toString() {
+        return title + "\n" + lastBuildDate + "\n";
+    }
 }

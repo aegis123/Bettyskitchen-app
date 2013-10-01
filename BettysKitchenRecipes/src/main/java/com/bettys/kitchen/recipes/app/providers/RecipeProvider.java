@@ -26,7 +26,7 @@ public class RecipeProvider extends ContentProvider {
     private static final int ITEMS = 3;
 
     private static final String BASE_CHANNEL = "channel";
-    private static final String BASE_ITEM = "item";
+    private static final String BASE_ITEM = "items";
 
     private static final Object LOCK = new Object();
 
@@ -49,7 +49,7 @@ public class RecipeProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         synchronized (LOCK) {
             SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-            Class clz = null;
+            Class clz;
             switch (sMatcher.match(uri)) {
                 case CHANNEL:
                 case CHANNELS:
@@ -82,7 +82,7 @@ public class RecipeProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         synchronized (LOCK) {
             SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-            Class clz = null;
+            Class clz;
             long id = Long.getLong(uri.getLastPathSegment(), 0);
             switch (sMatcher.match(uri)) {
                 case CHANNEL:
@@ -102,7 +102,7 @@ public class RecipeProvider extends ContentProvider {
                     } else {
                         id = cupboard().withDatabase(db).update(clz, values);
                     }
-                    return Uri.parse(mContentProviderAuth + "/item/" + id);
+                    return Uri.parse(mContentProviderAuth + "/items/" + id);
                 default:
                     throw new IllegalArgumentException("Unknown URI: " + uri);
             }
@@ -130,8 +130,7 @@ public class RecipeProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         synchronized (LOCK) {
             SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-            Class clz = null;
-            long id = Long.getLong(uri.getLastPathSegment(), 0);
+            Class clz;
             switch (sMatcher.match(uri)) {
                 case CHANNEL:
                 case CHANNELS:

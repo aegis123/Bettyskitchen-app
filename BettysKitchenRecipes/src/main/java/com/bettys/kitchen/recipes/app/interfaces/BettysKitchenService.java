@@ -2,7 +2,9 @@ package com.bettys.kitchen.recipes.app.interfaces;
 
 import com.bettys.kitchen.recipes.app.models.Rss;
 
+import retrofit.http.GET;
+
 public interface BettysKitchenService {
-    //@Get("/feed/")
+    @GET("/feed/")
     Rss getFeed();
 }

@@ -1,20 +1,14 @@
 package com.bettys.kitchen.recipes.app.models;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.ElementUnion;
 import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.NamespaceList;
 
-import java.net.URL;
-import java.util.Date;
-import java.util.List;
-
 @NamespaceList({
-        @Namespace(prefix="content", reference="http://purl.org/rss/1.0/modules/content/"),
-        @Namespace(prefix="wfw", reference="http://wellformedweb.org/CommentAPI/"),
-        @Namespace(prefix="dc", reference="http://purl.org/dc/elements/1.1/"),
-        @Namespace(prefix="slash", reference="http://purl.org/rss/1.0/modules/slash/")
+        @Namespace(prefix = "content", reference = "http://purl.org/rss/1.0/modules/content/"),
+        @Namespace(prefix = "wfw", reference = "http://wellformedweb.org/CommentAPI/"),
+        @Namespace(prefix = "dc", reference = "http://purl.org/dc/elements/1.1/"),
+        @Namespace(prefix = "slash", reference = "http://purl.org/rss/1.0/modules/slash/")
 })
 public class Item {
     public static final String FIELD_TITLE = "title";
@@ -35,18 +29,23 @@ public class Item {
     public String mComments;
     @Element(name = "pubDate")
     public String mPubDate;
-    @Namespace(reference="http://purl.org/dc/elements/1.1/")
+    @Namespace(reference = "http://purl.org/dc/elements/1.1/")
     @Element(name = "creator")
     public String mAuthor;
     @Element(name = "description")
     public String mDescription;
-    @Namespace(reference="http://purl.org/rss/1.0/modules/content/")
+    @Namespace(reference = "http://purl.org/rss/1.0/modules/content/")
     @Element(name = "encoded")
     public String mContent;
-    @Namespace(reference="http://wellformedweb.org/CommentAPI/")
+    @Namespace(reference = "http://wellformedweb.org/CommentAPI/")
     @Element(name = "commentRss")
     public String mCommentRss;
-    @Namespace(reference="http://purl.org/rss/1.0/modules/slash/")
+    @Namespace(reference = "http://purl.org/rss/1.0/modules/slash/")
     @Element(name = "comments")
     public int mNumberOfComments;
+
+    @Override
+    public String toString() {
+        return mTitle + "\n" + mAuthor + "\n" + mPubDate + "\n";
+    }
 }
