@@ -34,7 +34,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         OkHttpClient client = new OkHttpClient();
         InputStream in = null;
         try {
-            URL url =  new URL("https://raw.github.com/square/okhttp/master/README.md");
+            URL url =  new URL("http://bettyskitchen.nl/feed/");
             HttpURLConnection connection = client.open(url);
             // Read the response.
             in = connection.getInputStream();

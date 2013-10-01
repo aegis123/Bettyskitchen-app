@@ -25,17 +25,21 @@ public class RecipeProvider extends ContentProvider {
     private static final int ITEM = 2;
     private static final int ITEMS = 3;
 
+    private static final String BASE_CHANNEL = "channel";
+    private static final String BASE_ITEM = "item";
+
     private static final Object LOCK = new Object();
+
 
     @Override
     public boolean onCreate() {
         if (sMatcher == null) {
             sMatcher = new UriMatcher(UriMatcher.NO_MATCH);
             mContentProviderAuth = getContext().getString(R.string.authority);
-            sMatcher.addURI(mContentProviderAuth, "channel/#", CHANNEL);
-            sMatcher.addURI(mContentProviderAuth, "channels", CHANNELS);
-            sMatcher.addURI(mContentProviderAuth, "item/#", ITEM);
-            sMatcher.addURI(mContentProviderAuth, "items", ITEMS);
+            sMatcher.addURI(mContentProviderAuth, BASE_CHANNEL + "/#", CHANNEL);
+            sMatcher.addURI(mContentProviderAuth, BASE_CHANNEL, CHANNELS);
+            sMatcher.addURI(mContentProviderAuth, BASE_ITEM + "/#", ITEM);
+            sMatcher.addURI(mContentProviderAuth, BASE_ITEM, ITEMS);
         }
         mDatabaseHelper = new CupboardSQLiteOpenHelper(getContext());
         return true;
