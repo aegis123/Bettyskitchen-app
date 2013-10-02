@@ -1,8 +1,9 @@
 package com.bettys.kitchen.recipes.app.models;
 
-/**
- * Created by Dylan on 29-9-13.
- */
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Text;
+
 public class Category {
-    public String mCategory;
+    @Text(data = true)
+    public String category;
 }

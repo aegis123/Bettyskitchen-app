@@ -71,7 +71,7 @@ public class SimpleXmlConverter implements Converter {
             // Need a Class instance here, as using the Type in serializer.read(...) doesn't work
             Class<?> typeClass = (Class<?>) type;
 
-            return serializer.read((Class<?>) type, isr);
+            return serializer.read((Class<?>) type, isr, false);
         } catch (Exception e) {
             throw new ConversionException(e);
         }

@@ -3,6 +3,7 @@ package com.bettys.kitchen.recipes.app.activities;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,7 +37,10 @@ public class MainActivity extends Activity {
         Log.d(RecipeApplication.TAG, "MainActivity started onCreate()");
         Log.d(RecipeApplication.TAG, mAccount.name.toString());
         Log.d(RecipeApplication.TAG, mAccount.toString());
-        server();
+        Bundle b = new Bundle();
+        b.putString(ContentResolver.SYNC_EXTRAS_EXPEDITED, "");
+        //server();
+        getContentResolver().requestSync(mAccount, getString(R.string.authority), b);
     }
 
     private void server() {

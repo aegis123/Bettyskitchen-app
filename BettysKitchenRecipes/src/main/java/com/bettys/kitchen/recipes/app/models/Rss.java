@@ -6,7 +6,7 @@ import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.NamespaceList;
 import org.simpleframework.xml.Root;
 
-@Root
+@Root(strict=false)
 public class Rss {
     @Element(name = "channel", required = true)
     public Channel mChannel;
