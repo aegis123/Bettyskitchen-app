@@ -32,6 +32,8 @@ public class Item {
 
     public static final Uri ITEM_URI = Uri.parse("content://com.bettys.kitchen.recipes.app.providers/items");
 
+    public long _id;
+
     @Element(name = "title")
     public String title;
 
@@ -45,7 +47,7 @@ public class Item {
     public String pubDate;
 
     @ElementList(name = "category", inline = true)
-    public List<Category> categories;
+    public transient List<Category> categories;
 
     @Element(name = "creator")
     public String creator;

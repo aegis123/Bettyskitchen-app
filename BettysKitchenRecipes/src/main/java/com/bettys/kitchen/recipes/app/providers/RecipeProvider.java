@@ -9,6 +9,7 @@ import android.net.Uri;
 
 import com.bettys.kitchen.recipes.app.R;
 import com.bettys.kitchen.recipes.app.db.CupboardSQLiteOpenHelper;
+import com.bettys.kitchen.recipes.app.models.Category;
 import com.bettys.kitchen.recipes.app.models.Channel;
 import com.bettys.kitchen.recipes.app.models.Item;
 
@@ -24,9 +25,12 @@ public class RecipeProvider extends ContentProvider {
     private static final int CHANNELS = 1;
     private static final int ITEM = 2;
     private static final int ITEMS = 3;
+    private static final int CATEGORY = 4;
+    private static final int CATEGORIES = 5;
 
-    private static final String BASE_CHANNEL = "channel";
+    private static final String BASE_CHANNEL = "channels";
     private static final String BASE_ITEM = "items";
+    private static final String BASE_CATEGORY = "categories";
 
     private static final Object LOCK = new Object();
 
@@ -40,6 +44,8 @@ public class RecipeProvider extends ContentProvider {
             sMatcher.addURI(mContentProviderAuth, BASE_CHANNEL, CHANNELS);
             sMatcher.addURI(mContentProviderAuth, BASE_ITEM + "/#", ITEM);
             sMatcher.addURI(mContentProviderAuth, BASE_ITEM, ITEMS);
+            sMatcher.addURI(mContentProviderAuth, BASE_CATEGORY + "/#", CATEGORY);
+            sMatcher.addURI(mContentProviderAuth, BASE_CATEGORY, CATEGORIES);
         }
         mDatabaseHelper = new CupboardSQLiteOpenHelper(getContext());
         return true;
@@ -61,6 +67,14 @@ public class RecipeProvider extends ContentProvider {
                             getCursor();
                 case ITEM:
                 case ITEMS:
+                    clz = Item.class;
+                    return cupboard().withDatabase(db).query(clz).
+                            withProjection(projection).
+                            withSelection(selection, selectionArgs).
+                            orderBy(sortOrder).
+                            getCursor();
+                case CATEGORY:
+                case CATEGORIES:
                     clz = Item.class;
                     return cupboard().withDatabase(db).query(clz).
                             withProjection(projection).
@@ -93,7 +107,7 @@ public class RecipeProvider extends ContentProvider {
                     } else {
                         id = cupboard().withDatabase(db).update(clz, values);
                     }
-                    return Uri.parse(mContentProviderAuth + "/channel/" + id);
+                    return Uri.parse(mContentProviderAuth + "/" + BASE_CHANNEL + "/" + id);
                 case ITEM:
                 case ITEMS:
                     clz = Item.class;
@@ -102,7 +116,16 @@ public class RecipeProvider extends ContentProvider {
                     } else {
                         id = cupboard().withDatabase(db).update(clz, values);
                     }
-                    return Uri.parse(mContentProviderAuth + "/items/" + id);
+                    return Uri.parse(mContentProviderAuth + "/" + BASE_ITEM + "/" + id);
+                case CATEGORY:
+                case CATEGORIES:
+                    clz = Category.class;
+                    if (id == 0) {
+                        id = cupboard().withDatabase(db).put(clz, values);
+                    } else {
+                        id = cupboard().withDatabase(db).update(clz, values);
+                    }
+                    return Uri.parse(mContentProviderAuth + "/" + BASE_CATEGORY + "/" + id);
                 default:
                     throw new IllegalArgumentException("Unknown URI: " + uri);
             }

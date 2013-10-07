@@ -35,6 +35,10 @@
             android:authorities="com.bettys.kitchen.recipes.app.providers"
             android:exported="false"
             android:syncable="true" />
+        <provider
+            android:name=".providers.RecipeProvider"
+            android:authorities="com.bettys.kitchen.recipes.app.providers"
+            android:exported="false" />
         <!-- Services -->
         <service android:name=".services.AuthenticatorService">
             <intent-filter>

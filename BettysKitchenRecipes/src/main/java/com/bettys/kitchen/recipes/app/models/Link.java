@@ -4,6 +4,10 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Text;
 
 public class Link {
+    public long _id;
+
+    public long foreign_key;
+
     @Attribute(required = false)
     public String href;
 

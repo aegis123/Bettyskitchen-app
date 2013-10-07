@@ -5,14 +5,21 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import com.bettys.kitchen.recipes.app.RecipeApplication;
 import com.bettys.kitchen.recipes.app.interfaces.BettysKitchenService;
+import com.bettys.kitchen.recipes.app.models.Category;
 import com.bettys.kitchen.recipes.app.models.Item;
 import com.bettys.kitchen.recipes.app.models.Rss;
 import com.mobprofs.retrofit.converters.SimpleXmlConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.RestAdapter;
 
@@ -42,10 +49,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         BettysKitchenService server = restAdapter.create(BettysKitchenService.class);
         Rss feed = server.getFeed();
+        List<String> categoriesSaved = new ArrayList<String>();
         if (feed != null & feed.mChannel != null && feed.mChannel.items != null && !feed.mChannel.items.isEmpty()) {
             for (Item item : feed.mChannel.items) {
                 Log.d(RecipeApplication.TAG, "Saving item: " + item.log());
-                cupboard().withContext(getContext()).put(Item.ITEM_URI, item);
+                Uri uri = cupboard().withContext(getContext()).put(Item.ITEM_URI, item);
+                Log.d(RecipeApplication.TAG, uri.toString());
+                // TODO save Categories
+                /*long itemId = Long.getLong(uri.getLastPathSegment(), 0);
+                for(Category category : item.categories) {
+                    if(!categoriesSaved.contains(category.category)) {
+                        Uri categoryUri = cupboard().withContext(getContext()).put(Category.CATEGORIES_URI, category);
+                        long categoryId = Long.getLong(uri.getLastPathSegment(), 0);
+                        category._id = categoryId;
+                        categoriesSaved.add(category.category);
+                        Log.d(RecipeApplication.TAG, "Saving category: " + category.toString());
+                    }
+                }*/
             }
         }
 
