@@ -29,8 +29,13 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:1.2.+'
     compile 'com.github.gabrielemariotti.cards:library:0.2.+'
     compile 'nl.qbusict:cupboard:1.0.+'
-    // compile 'com.mobprofs:retrofit-simplexmlconverter:1.0'
-    compile('org.simpleframework:simple-xml:2.7.+'){
+    compile('org.simpleframework:simple-xml:2.7.+') {
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+    // Also exlcude dependancies from sublibaries
+    compile('com.mobprofs:retrofit-simplexmlconverter:1.0') {
         exclude module: 'stax'
         exclude module: 'stax-api'
         exclude module: 'xpp3'

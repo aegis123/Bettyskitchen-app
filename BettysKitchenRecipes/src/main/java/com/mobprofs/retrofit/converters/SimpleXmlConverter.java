@@ -15,8 +15,12 @@
  */
 package com.mobprofs.retrofit.converters;
 
+import com.bettys.kitchen.recipes.app.Utils.DateFormatTransformer;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.simpleframework.xml.transform.RegistryMatcher;
+
 import retrofit.converter.ConversionException;
 import retrofit.converter.Converter;
 import retrofit.mime.MimeUtil;
@@ -29,6 +33,10 @@ import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A {@link retrofit.converter.Converter} which uses Simple XML for serialization and deserialization of entities.
@@ -46,6 +54,15 @@ public class SimpleXmlConverter implements Converter {
      */
     public SimpleXmlConverter() {
         this.serializer = new Persister();
+    }
+
+    /**
+     * Constructs a SimpleXmlConverter using an instance of {@link #Persister(org.simpleframework.xml.transform.Matcher)} as serializer.
+     *
+     * @param matcher
+     */
+    public SimpleXmlConverter(RegistryMatcher matcher) {
+        this.serializer = new Persister(matcher);
     }
 
     /**

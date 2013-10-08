@@ -1,6 +1,9 @@
 package com.bettys.kitchen.recipes.app.models;
 
 import android.net.Uri;
+import android.util.Log;
+
+import com.bettys.kitchen.recipes.app.RecipeApplication;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
@@ -11,6 +14,10 @@ import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Text;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @NamespaceList({
@@ -32,8 +39,6 @@ public class Item {
 
     public static final Uri ITEM_URI = Uri.parse("content://com.bettys.kitchen.recipes.app.providers/items");
 
-    public long _id;
-
     @Element(name = "title")
     public String title;
 
@@ -44,7 +49,7 @@ public class Item {
     public String guid;
 
     @Element(name = "pubDate")
-    public String pubDate;
+    public Date pubDate;
 
     @ElementList(name = "category", inline = true)
     public transient List<Category> categories;

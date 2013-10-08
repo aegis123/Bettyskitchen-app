@@ -29,16 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Providers -->
-        <provider
-            android:name=".providers.StubProvider"
-            android:authorities="com.bettys.kitchen.recipes.app.providers"
-            android:exported="false"
-            android:syncable="true" />
         <provider
             android:name=".providers.RecipeProvider"
             android:authorities="com.bettys.kitchen.recipes.app.providers"
-            android:exported="false" />
+            android:exported="false"
+            android:syncable="true"/>
         <!-- Services -->
         <service android:name=".services.AuthenticatorService">
             <intent-filter>

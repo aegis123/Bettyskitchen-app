@@ -13,14 +13,21 @@ import android.view.Menu;
 
 import com.bettys.kitchen.recipes.app.R;
 import com.bettys.kitchen.recipes.app.RecipeApplication;
+import com.bettys.kitchen.recipes.app.Utils.DateFormatTransformer;
 import com.bettys.kitchen.recipes.app.interfaces.BettysKitchenService;
 import com.bettys.kitchen.recipes.app.models.Item;
 import com.bettys.kitchen.recipes.app.models.Rss;
 import com.bettys.kitchen.recipes.app.syncadapters.SyncAdapter;
 import com.mobprofs.retrofit.converters.SimpleXmlConverter;
 
+import org.simpleframework.xml.transform.RegistryMatcher;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit.RestAdapter;
 
@@ -52,10 +59,16 @@ public class MainActivity extends Activity {
             protected Void doInBackground(Void... params) {
                 Log.d(RecipeApplication.TAG, "SyncAdapter.onPerformSync()");
 
+                // Maybe you have to correct this or use another / no Locale
+                DateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
+
+                RegistryMatcher matcher = new RegistryMatcher();
+                matcher.bind(Date.class, new DateFormatTransformer(format));
+
                 // Create a very simple REST adapter which points the GitHub API endpoint.
                 RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setServer(SyncAdapter.SERVER_URL).setConverter(new SimpleXmlConverter())
-                        .build();
+                    .setServer(SyncAdapter.SERVER_URL).setConverter(new SimpleXmlConverter(matcher))
+                    .build();
 
                 BettysKitchenService server = restAdapter.create(BettysKitchenService.class);
                 Rss feed = server.getFeed();
@@ -66,16 +79,16 @@ public class MainActivity extends Activity {
                         Uri uri = cupboard().withContext(RecipeApplication.getContext()).put(Item.ITEM_URI, item);
                         Log.d(RecipeApplication.TAG, uri.toString());
                         // TODO save Categories
-                /*long itemId = Long.getLong(uri.getLastPathSegment(), 0);
-                for(Category category : item.categories) {
-                    if(!categoriesSaved.contains(category.category)) {
-                        Uri categoryUri = cupboard().withContext(getContext()).put(Category.CATEGORIES_URI, category);
-                        long categoryId = Long.getLong(uri.getLastPathSegment(), 0);
-                        category._id = categoryId;
-                        categoriesSaved.add(category.category);
-                        Log.d(RecipeApplication.TAG, "Saving category: " + category.toString());
-                    }
-                }*/
+                        /*long itemId = Long.getLong(uri.getLastPathSegment(), 0);
+                        for(Category category : item.categories) {
+                            if(!categoriesSaved.contains(category.category)) {
+                                Uri categoryUri = cupboard().withContext(getContext()).put(Category.CATEGORIES_URI, category);
+                                long categoryId = Long.getLong(uri.getLastPathSegment(), 0);
+                                category._id = categoryId;
+                                categoriesSaved.add(category.category);
+                                Log.d(RecipeApplication.TAG, "Saving category: " + category.toString());
+                            }
+                        }*/
                     }
                 }
                 return null;
@@ -99,11 +112,11 @@ public class MainActivity extends Activity {
     public static Account CreateSyncAccount(Context context) {
         // Create the account type and default account
         Account newAccount = new Account(
-                ACCOUNT, context.getString(R.string.accountType));
+            ACCOUNT, context.getString(R.string.accountType));
         // Get an instance of the Android account manager
         AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
+            (AccountManager) context.getSystemService(
+                ACCOUNT_SERVICE);
         /*
          * Add the account and account type, no password or user data
          * If successful, return the Account object, otherwise report an error.
