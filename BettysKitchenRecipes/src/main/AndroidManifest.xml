@@ -45,7 +45,6 @@
         </service>
         <service
             android:name=".services.SyncService"
-            android:exported="true"
             android:process=":sync">
             <intent-filter>com.bettys.kitchen.recipes.app.providers
                 <action android:name="android.content.SyncAdapter"/>

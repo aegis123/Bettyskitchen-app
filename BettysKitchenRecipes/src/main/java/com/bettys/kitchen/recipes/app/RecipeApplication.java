@@ -12,14 +12,13 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class RecipeApplication extends Application {
     public static final String TAG = "BettysKitchen.nl";
 
+    private static Context mContext;
+
     static {
         Log.d(RecipeApplication.TAG, "Register classes for DB");
         // Register our models.
         cupboard().register(Item.class);
     }
-
-    private static Context mContext;
-
 
     @Override
     public void onCreate() {

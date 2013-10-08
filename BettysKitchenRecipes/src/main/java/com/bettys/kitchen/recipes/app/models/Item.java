@@ -27,11 +27,12 @@ import java.util.List;
         @Namespace(reference = "http://purl.org/rss/1.0/modules/slash/", prefix = "slash")
 })
 public class Item {
+    public static final String FIELD_ID = "_id";
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_LINK = "link";
     public static final String FIELD_COMMENTS = "comments";
     public static final String FIELD_PUBDATE = "pubDate";
-    public static final String FIELD_AUTHOR = "author";
+    public static final String FIELD_AUTHOR = "creator";
     public static final String FIELD_DESCRIPTION = "description";
     public static final String FIELD_CONTENT = "content";
     public static final String FIELD_COMMENTRSS = "commentRss";

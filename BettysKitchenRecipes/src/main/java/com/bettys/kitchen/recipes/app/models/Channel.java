@@ -5,6 +5,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.NamespaceList;
 
+import java.util.Date;
 import java.util.List;
 
 @NamespaceList({
@@ -28,7 +29,7 @@ public class Channel {
     public String description;
 
     @Element(name = "lastBuildDate", required = true)
-    public String lastBuildDate;
+    public Date lastBuildDate;
 
     @Element(name = "language", required = true)
     public String language;
@@ -41,7 +42,6 @@ public class Channel {
 
     @Element(name = "generator")
     public String generator;
-
 
     @ElementList(name = "item", required = true, inline = true)
     public List<Item> items;

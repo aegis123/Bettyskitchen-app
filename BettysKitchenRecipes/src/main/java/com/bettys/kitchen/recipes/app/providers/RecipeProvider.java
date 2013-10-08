@@ -6,8 +6,10 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.bettys.kitchen.recipes.app.R;
+import com.bettys.kitchen.recipes.app.RecipeApplication;
 import com.bettys.kitchen.recipes.app.db.CupboardSQLiteOpenHelper;
 import com.bettys.kitchen.recipes.app.models.Category;
 import com.bettys.kitchen.recipes.app.models.Channel;
@@ -68,14 +70,16 @@ public class RecipeProvider extends ContentProvider {
                 case ITEM:
                 case ITEMS:
                     clz = Item.class;
-                    return cupboard().withDatabase(db).query(clz).
+                    Cursor cursor = cupboard().withDatabase(db).query(clz).
                             withProjection(projection).
                             withSelection(selection, selectionArgs).
                             orderBy(sortOrder).
                             getCursor();
+                    Log.d(RecipeApplication.TAG, "Provider.query for items " + cursor.getCount() + " entries");
+                    return cursor;
                 case CATEGORY:
                 case CATEGORIES:
-                    clz = Item.class;
+                    clz = Category.class;
                     return cupboard().withDatabase(db).query(clz).
                             withProjection(projection).
                             withSelection(selection, selectionArgs).

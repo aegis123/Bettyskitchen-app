@@ -10,7 +10,7 @@ import com.bettys.kitchen.recipes.app.syncadapters.SyncAdapter;
  * Created by Dylan on 30-9-13.
  */
 public class SyncService extends Service {
-    // Storage for an instance of the sync adapter
+    // Storage for an instance of the sync RecipeListCursorAdapter
     private static SyncAdapter sSyncAdapter = null;
     // Object to use as a thread-safe lock
     private static final Object sSyncAdapterLock = new Object();
@@ -19,8 +19,8 @@ public class SyncService extends Service {
     public void onCreate() {
         super.onCreate();
         /*
-         * Create the sync adapter as a singleton.
-         * Set the sync adapter as syncable
+         * Create the sync RecipeListCursorAdapter as a singleton.
+         * Set the sync RecipeListCursorAdapter as syncable
          * Disallow parallel syncs
          */
         synchronized (sSyncAdapterLock) {
