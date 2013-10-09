@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bettys.kitchen.recipes.app"
-    android:versionCode="1"
-    android:versionName="1.0">
+          package="com.bettys.kitchen.recipes.app"
+          android:versionCode="1"
+          android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="18"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
@@ -24,11 +24,20 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.RecipeActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.bettys.kitchen.recipes.app.activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
         <provider
             android:name=".providers.RecipeProvider"
             android:authorities="com.bettys.kitchen.recipes.app.providers"
@@ -37,11 +46,11 @@
         <!-- Services -->
         <service android:name=".services.AuthenticatorService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                android:resource="@xml/authenticator"/>
         </service>
         <service
             android:name=".services.SyncService"
@@ -49,8 +58,9 @@
             <intent-filter>com.bettys.kitchen.recipes.app.providers
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"/>
         </service>
     </application>
 

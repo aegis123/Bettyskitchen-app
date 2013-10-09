@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
@@ -25,6 +24,13 @@ import com.bettys.kitchen.recipes.app.models.Item;
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     // The account name
     public static final String ACCOUNT = "dummyaccount";
+    // Sync adapter periodic sync time
+    public static final long MILLISECONDS_PER_SECOND = 1000L;
+    public static final long SECONDS_PER_MINUTE = 60L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
+    public static final long SYNC_INTERVAL_IN_HOURS = 24L;
+    public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_HOURS * SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
+
     // Instance fields
     private Account mAccount;
     private ListView mListView;
@@ -39,16 +45,15 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mListView = (ListView) findViewById(R.id.listView);
         mAdapter = new RecipeListCursorAdapter(this, null, 0);
         mListView.setAdapter(mAdapter);
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            getActionBar().setHomeButtonEnabled(true);
-        }
+
 
         mAccount = CreateSyncAccount(this);
-
+        /*
+         * Turn on periodic syncing
+         */
+        ContentResolver.addPeriodicSync(mAccount, getString(R.string.authority), new Bundle(), SYNC_INTERVAL);
         getSupportLoaderManager().initLoader(
-                R.id.loader_activity_list, null, this);
+            R.id.loader_activity_list, null, this);
     }
 
     @Override
@@ -59,9 +64,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 // Pass the settings flags by inserting them in a bundle
                 Bundle settingsBundle = new Bundle();
                 settingsBundle.putBoolean(
-                        ContentResolver.SYNC_EXTRAS_MANUAL, true);
+                    ContentResolver.SYNC_EXTRAS_MANUAL, true);
                 settingsBundle.putBoolean(
-                        ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+                    ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
                 /*
                  * Request the sync for the default account, authority, and
                  * manual sync settings
@@ -91,11 +96,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     public static Account CreateSyncAccount(Context context) {
         // Create the account type and default account
         Account newAccount = new Account(
-                ACCOUNT, context.getString(R.string.accountType));
+            ACCOUNT, context.getString(R.string.accountType));
         // Get an instance of the Android account manager
         AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
+            (AccountManager) context.getSystemService(
+                ACCOUNT_SERVICE);
         /*
          * Add the account and account type, no password or user data
          * If successful, return the Account object, otherwise report an error.
@@ -121,13 +126,13 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         Log.d(RecipeApplication.TAG, "onCreateLoader");
         setBusy(true);
         String[] projection = {
-                Item.FIELD_ID,
-                Item.FIELD_TITLE,
-                Item.FIELD_PUBDATE,
-                Item.FIELD_AUTHOR
+            Item.FIELD_ID,
+            Item.FIELD_TITLE,
+            Item.FIELD_PUBDATE,
+            Item.FIELD_AUTHOR
         };
         CursorLoader cursorLoader = new CursorLoader(this,
-                Item.ITEM_URI, projection, null, null, null);
+            Item.ITEM_URI, projection, null, null, null);
         return cursorLoader;
     }
 

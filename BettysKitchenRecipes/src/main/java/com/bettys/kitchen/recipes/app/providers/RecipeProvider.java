@@ -31,7 +31,8 @@ public class RecipeProvider extends ContentProvider {
     private static final int CATEGORIES = 5;
 
     private static final String BASE_CHANNEL = "channels";
-    private static final String BASE_ITEM = "items";
+    private static final String BASE_ITEM = "item";
+    private static final String BASE_ITEMS = "items";
     private static final String BASE_CATEGORY = "categories";
 
     private static final Object LOCK = new Object();
@@ -45,7 +46,7 @@ public class RecipeProvider extends ContentProvider {
             sMatcher.addURI(mContentProviderAuth, BASE_CHANNEL + "/#", CHANNEL);
             sMatcher.addURI(mContentProviderAuth, BASE_CHANNEL, CHANNELS);
             sMatcher.addURI(mContentProviderAuth, BASE_ITEM + "/#", ITEM);
-            sMatcher.addURI(mContentProviderAuth, BASE_ITEM, ITEMS);
+            sMatcher.addURI(mContentProviderAuth, BASE_ITEMS, ITEMS);
             sMatcher.addURI(mContentProviderAuth, BASE_CATEGORY + "/#", CATEGORY);
             sMatcher.addURI(mContentProviderAuth, BASE_CATEGORY, CATEGORIES);
         }

@@ -8,5 +8,6 @@
     <string name="title">Title</string>
     <string name="author">Author</string>
     <string name="publication_date">publication date</string>
+    <string name="content">Content</string>
 
 </resources>

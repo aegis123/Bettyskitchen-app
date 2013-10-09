@@ -5,18 +5,18 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.bettys.kitchen.recipes.app.Constants;
 import com.bettys.kitchen.recipes.app.RecipeApplication;
+import com.bettys.kitchen.recipes.app.Utils.ContentFormatTransformer;
 import com.bettys.kitchen.recipes.app.Utils.DateFormatTransformer;
 import com.bettys.kitchen.recipes.app.Utils.Prefs;
 import com.bettys.kitchen.recipes.app.db.CupboardSQLiteOpenHelper;
 import com.bettys.kitchen.recipes.app.interfaces.BettysKitchenService;
+import com.bettys.kitchen.recipes.app.models.Content;
 import com.bettys.kitchen.recipes.app.models.Item;
 import com.bettys.kitchen.recipes.app.models.Rss;
 import com.mobprofs.retrofit.converters.SimpleXmlConverter;
@@ -52,9 +52,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Log.d(RecipeApplication.TAG, "SyncAdapter.onPerformSync()");
         // Maybe you have to correct this or use another / no Locale
         DateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
+        Content content = new Content();
 
         RegistryMatcher matcher = new RegistryMatcher();
         matcher.bind(Date.class, new DateFormatTransformer(format));
+        matcher.bind(String.class, new ContentFormatTransformer(content));
 
         // Create a very simple REST RecipeListCursorAdapter which points the GitHub API endpoint.
         RestAdapter restAdapter = new RestAdapter.Builder()
