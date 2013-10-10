@@ -11,10 +11,12 @@ import android.support.v4.content.Loader;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.bettys.kitchen.recipes.app.R;
 import com.bettys.kitchen.recipes.app.RecipeApplication;
+import com.bettys.kitchen.recipes.app.Utils.ImageGetter;
 import com.bettys.kitchen.recipes.app.models.Item;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ public class RecipeActivity extends FragmentActivity implements LoaderManager.Lo
 
     private long mRecipeId;
     private TextView mTitle, mAuthor, mPubDate, mContent;
+    private WebView mWebView;
     private Item mItem;
 
     @Override
@@ -42,6 +45,7 @@ public class RecipeActivity extends FragmentActivity implements LoaderManager.Lo
         mAuthor = (TextView) findViewById(R.id.tv_recipe_author);
         mPubDate = (TextView) findViewById(R.id.tv_recipe_pubdate);
         mContent = (TextView) findViewById(R.id.tv_recipe_content);
+        mWebView = (WebView) findViewById(R.id.webView);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(Item.FIELD_ID)) {
@@ -73,16 +77,14 @@ public class RecipeActivity extends FragmentActivity implements LoaderManager.Lo
         Log.d(RecipeApplication.TAG, "number of entries returned: " + cursor.getCount());
         if (cursor != null && cursor.getCount() > 0) {
             mItem = cupboard().withCursor(cursor).get(Item.class);
-            Log.d(RecipeApplication.TAG, mItem.title);
-            Log.d(RecipeApplication.TAG, mItem.creator);
-            Log.d(RecipeApplication.TAG, mItem.pubDate.toString());
-            Log.d(RecipeApplication.TAG, mItem.encoded);
             mTitle.setText(mItem.title);
             mAuthor.setText(mItem.title);
             String format = "HH:mm dd-MM-yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
             mPubDate.setText(sdf.format(mItem.pubDate));
-            Spanned content = Html.fromHtml(mItem.encoded);
+            //mWebView.loadData(mItem.encoded, "text/html", null);
+            ImageGetter imageGetter = new ImageGetter(this, mContent);
+            Spanned content = Html.fromHtml(mItem.encoded, imageGetter, null);
             mContent.setText(content);
         }
     }

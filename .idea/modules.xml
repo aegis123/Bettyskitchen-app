@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BettysKitchenRecipes/BettysKitchenRecipes.iml" filepath="$PROJECT_DIR$/BettysKitchenRecipes/BettysKitchenRecipes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BettysKitchenRecipesProject.iml" filepath="$PROJECT_DIR$/BettysKitchenRecipesProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../AndroidStudioProjects.iml" filepath="$PROJECT_DIR$/../AndroidStudioProjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BettysKitchen-app/BettysKitchen-app.iml" filepath="$PROJECT_DIR$/BettysKitchen-app/BettysKitchen-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bettyskitchen-app.iml" filepath="$PROJECT_DIR$/Bettyskitchen-app.iml" />
     </modules>
   </component>
 </project>

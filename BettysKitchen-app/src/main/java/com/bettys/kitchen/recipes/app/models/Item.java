@@ -57,7 +57,7 @@ public class Item {
     public String description;
 
     @Element(name = "encoded", data = true)
-    public Content encoded;
+    public String encoded;
 
     @Element(name = "commentRss")
     public String commentRss;
